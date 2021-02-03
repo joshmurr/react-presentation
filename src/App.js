@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import GlobalStyle from './components/GlobalStyle'
+import Slide from './components/Slide'
+import Title from './components/Title'
+import Textbox from './components/Textbox'
+import Content from './components/Content'
+import Webcam from './components/Webcam'
+import Image from './components/Image'
+
+import { slides_data } from './slides'
 
 function App() {
+  const slides = slides_data.map(slide => {
+    return (
+      <Slide>
+        <Title>{ slide.title }</Title>
+        <Textbox>{ slide.text }</Textbox>
+        <Content>
+          { slide.content.images.map(img => <Image src={img}></Image>) }
+        </Content>
+        <Webcam>This is the webcam.</Webcam>
+      </Slide>
+    )
+  });
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GlobalStyle />
+      { slides }
     </div>
   );
 }
