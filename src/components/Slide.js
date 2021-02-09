@@ -10,6 +10,7 @@ const Container = styled.div`
 	padding: var(--gap);
 	overflow: none;
 
+
   display: grid;
   grid-template-columns: 1.6fr 0.4fr;
   grid-template-rows: 0.3fr 2.1fr 0.6fr;

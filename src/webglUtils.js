@@ -77,6 +77,7 @@ export function createFramebuffer(gl, tex){
 }
 
 export function initVideo(videoEl) {
+	console.log(videoEl);
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
       .getUserMedia({ video: true })
@@ -84,6 +85,7 @@ export function initVideo(videoEl) {
         videoEl.srcObject = stream;
       })
       .catch(function (error) {
+				console.log(error);
         console.log('Something went wrong with the webcam...');
       });
   }
@@ -99,3 +101,29 @@ export function stopVideo(e, videoEl) {
 
   videoEl.srcObject = null;
 }
+
+export function setupVertexAttribs(gl, program) {
+	  const pos_attr = gl.getAttribLocation(program, 'a_position');
+	  const buffer = gl.createBuffer();
+	  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+	  gl.bufferData(
+			    gl.ARRAY_BUFFER,
+			    new Float32Array([-1, -1, -1, 1, 1, -1, -1, 1, 1, 1, 1, -1]),
+			    gl.STATIC_DRAW
+			  );
+
+	  gl.enableVertexAttribArray(pos_attr);
+	  gl.vertexAttribPointer(pos_attr, 2, gl.FLOAT, false, 0, 0);
+
+	  const texcoord_attr = gl.getAttribLocation(program, 'a_texcoord');
+	  const texcoord_buf = gl.createBuffer();
+	  gl.bindBuffer(gl.ARRAY_BUFFER, texcoord_buf);
+	  gl.bufferData(
+			    gl.ARRAY_BUFFER,
+			    new Float32Array([0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0]),
+			    gl.STATIC_DRAW
+			  );
+	  gl.enableVertexAttribArray(texcoord_attr);
+	  gl.vertexAttribPointer(texcoord_attr, 2, gl.FLOAT, false, 0, 0);
+}
+

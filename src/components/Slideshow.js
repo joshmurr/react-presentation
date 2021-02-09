@@ -12,6 +12,14 @@ const KEYS = {
 }
 
 function Slideshow(props){
+  const upHandler = ({ key}) => {
+    if (KEYS.left.includes(key)) {
+			props.onSlideChange(prev => Math.max(0, prev - 1));
+    } else if (KEYS.right.includes(key)) {
+			props.onSlideChange(prev => Math.min(prev + 1, props.data.length - 1));
+		}
+  };
+
   const slides = props.data.map((slide, i) => {
     return (
       <Slide key={i}>
@@ -20,18 +28,11 @@ function Slideshow(props){
         <Content>
           { slide.content.images.map(img => <Image src={img}></Image>) }
         </Content>
-        <Webcam>This is the webcam.</Webcam>
+        <Webcam videoRef={props.videoRef}>This is the webcam.</Webcam>
       </Slide>
     )
   });
 
-  const upHandler = ({ key}) => {
-    if (KEYS.left.includes(key)) {
-			props.onSlideChange(prev => Math.max(0, prev - 1));
-    } else if (KEYS.right.includes(key)) {
-			props.onSlideChange(prev => Math.min(prev + 1, slides.length - 1));
-		}
-  };
   useEffect(() => {
     window.addEventListener('keyup', upHandler);
     return () => {
