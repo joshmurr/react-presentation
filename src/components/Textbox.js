@@ -16,10 +16,10 @@ const Text = styled.p`
 `
 
 
-function Textbox(props){
+function Textbox({ children }){
   return (
     <Container>
-      <Text>{ props.children }</Text>
+      <Text>{ children }</Text>
     </Container>
   );
 }

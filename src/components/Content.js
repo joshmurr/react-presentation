@@ -1,4 +1,6 @@
+import { PropTypes } from 'prop-types'
 import styled from 'styled-components'
+import Image from './Image'
 
 const Container = styled.div`
   background-color: #DDD;
@@ -12,12 +14,29 @@ const Container = styled.div`
 	justify-content: center;
 `;
 
-function Content(props){
+const Text = styled.p`
+	color: red;
+`
+
+const isImage = (item) => (
+	item.startsWith('/static/media/', 0) || item.startsWith('data:image', 0)
+)
+
+function Content({ content=[] }){
   return (
     <Container>
-      { props.children }
+			{ content.map(item => (
+					isImage(item) ?
+						<Image src={item}></Image> :
+						<Text>{ item }</Text>
+			))
+			}
     </Container>
   );
+}
+
+Content.propTypes = {
+	content: PropTypes.array,
 }
 
 export default Content;

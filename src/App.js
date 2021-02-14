@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
 import GlobalStyle from './components/GlobalStyle'
@@ -7,7 +8,6 @@ import Title from './components/Title'
 import Textbox from './components/Textbox'
 import Content from './components/Content'
 import Webcam from './components/Webcam'
-import Image from './components/Image'
 
 import { slides_data } from './slides'
 
@@ -21,7 +21,8 @@ const KEYS = {
 }
 
 function App() {
-	const [slides] = useState(slides_data)
+	const { title, slidesList } = slides_data
+	const [slides] = useState(slidesList)
   const [slideNum, setSlideNum] = useState(0)
 	const videoRef = useRef(null)
 
@@ -42,17 +43,19 @@ function App() {
 	const currentSlide = slides[slideNum]
   return (
     <div className="App">
+			<Helmet>
+				<meta charset="utf-8" />
+				<title>{ title }</title>
+				<link rel="stylesheet" type="text/css" href="fonts.css" />
+			</Helmet>
       <GlobalStyle />
 			<Video ref={videoRef} autoPlay />
 			<Slide>
 				<Title>{ currentSlide.title }</Title>
 				<Textbox>{ currentSlide.text }</Textbox>
-				<Content>
-					{ currentSlide.content.images.length > 0 ?
-							currentSlide.content.images.map(img => <Image src={img}></Image>) :
-							null
-					}
-				</Content>
+				<Content
+					content={currentSlide.content}
+				/>
 				<Webcam videoRef={ videoRef }></Webcam>
 			</Slide>
     </div>
