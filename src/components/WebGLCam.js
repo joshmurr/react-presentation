@@ -53,12 +53,12 @@ const StyledCanvas = styled.canvas`
 	height: 100%;
 `
 
-export default function WebGLCam(props){
+export default function WebGLCam({ videoRef }){
 	const canvasRef = useRef(null);
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
-		const video = props.videoRef.current;
+		const video = videoRef.current;
 		const gl = canvas.getContext('webgl2');
 		let frameID;
 
@@ -100,7 +100,7 @@ export default function WebGLCam(props){
 			window.cancelAnimationFrame(frameID);
 		};
 
-	}, [props.videoRef])
+	}, [videoRef])
 
 	return (
 		<>

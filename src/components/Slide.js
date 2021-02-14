@@ -10,7 +10,6 @@ const Container = styled.div`
 	padding: var(--gap);
 	overflow: none;
 
-
   display: grid;
   grid-template-columns: 1.6fr 0.4fr;
   grid-template-rows: 0.3fr 2.1fr 0.6fr;
@@ -22,10 +21,10 @@ const Container = styled.div`
 `;
 
 
-function Slide(props){
+function Slide({ children }){
   return (
     <Container>
-      { props.children }
+      { children }
     </Container>
   );
 }

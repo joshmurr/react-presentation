@@ -15,9 +15,10 @@ const Container = styled.div`
 	border-radius: 15px;
 `;
 
-function Webcam(props){
+function Webcam({ videoRef }){
+	console.log(videoRef)
 	const videoHandler = () => {
-		initVideo(props.videoRef.current);
+		initVideo(videoRef.current);
 	}
   useEffect(() => {
     window.addEventListener('click', videoHandler);
@@ -28,7 +29,7 @@ function Webcam(props){
 
   return (
     <Container>
-			<WebGLCam videoRef={props.videoRef}></WebGLCam>
+			<WebGLCam videoRef={videoRef}></WebGLCam>
     </Container>
   );
 }
