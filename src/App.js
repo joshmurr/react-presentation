@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 import GlobalStyle from './components/GlobalStyle'
-//import Slideshow from './components/Slideshow'
 import Slide from './components/Slide'
 import Title from './components/Title'
 import Textbox from './components/Textbox'
