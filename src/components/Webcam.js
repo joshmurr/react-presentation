@@ -16,7 +16,6 @@ const Container = styled.div`
 `;
 
 function Webcam({ videoRef }){
-	console.log(videoRef)
 	const videoHandler = () => {
 		initVideo(videoRef.current);
 	}

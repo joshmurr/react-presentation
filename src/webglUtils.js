@@ -77,7 +77,6 @@ export function createFramebuffer(gl, tex){
 }
 
 export function initVideo(videoEl) {
-	console.log(videoEl);
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
       .getUserMedia({ video: true })
