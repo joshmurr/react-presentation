@@ -13,6 +13,8 @@ const Text = styled.p`
 	margin: 0;
 	font-size: 20px;
 	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 1.3em;
+	line-height: 1.3em;
 `
 
 
