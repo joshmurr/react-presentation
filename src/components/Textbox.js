@@ -19,7 +19,7 @@ const Text = styled.p`
 function Textbox({ children }){
   return (
     <Container>
-      <Text>{ children }</Text>
+			<Text dangerouslySetInnerHTML={{__html: children}} />
     </Container>
   );
 }

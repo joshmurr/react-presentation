@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Img = styled.img`
@@ -6,10 +7,15 @@ const Img = styled.img`
 `;
 
 
-function Image(props){
+function Image({ src }){
   return (
-		<Img src={props.src} />
+		<Img src={src} />
   );
 }
+
+Image.propTypes = {
+	src: PropTypes.string.isRequired,
+}
+
 
 export default Image;
