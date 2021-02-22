@@ -22,16 +22,15 @@ const KEYS = {
 }
 
 function App() {
-  const { title, slidesList } = slides_data
-  const [slides] = useState(slidesList)
-  //const [title, setTitle] = useState('NO DATA')
-  const [slidesInfo, setSlidesInfo] = useState(slides_data.slidesList)
+  const [title, setTitle] = useState('NO DATA')
+  const [slides, setSlidesInfo] = useState([])
+  const [images, setImages] = useState(null)
   const [slideNum, setSlideNum] = useState(0)
-  const [loaded, setLoaded] = useState(true)
+  const [loaded, setLoaded] = useState(false)
   const videoRef = useRef(null)
 
   function uploadImages(e) {
-    let images = []
+    let images = {}
     const files = e.target.files
 
     for (let i = 0, f; (f = files[i]); i++) {
@@ -40,17 +39,14 @@ function App() {
       if (f.type.match('image/*')) {
         reader.onload = (function (file) {
           return function (e) {
-            images.push({
-              name: escape(file.name),
-              src: e.target.result,
-            })
+            images[escape(file.name)] = e.target.result
           }
         })(f)
 
         reader.readAsDataURL(f)
       }
     }
-    console.log(images)
+    setImages(images)
   }
 
   function uploadJSON(e) {
@@ -64,7 +60,9 @@ function App() {
     }
     reader.onload = (function (f) {
       return function (e) {
-        setSlidesInfo(JSON.parse(e.target.result))
+        const json = JSON.parse(e.target.result)
+        setTitle(json.title)
+        setSlidesInfo(json.slidesList)
       }
     })(file)
 
@@ -85,7 +83,11 @@ function App() {
     }
   }, [setSlideNum, slides])
 
-  const currentSlide = slides[slideNum]
+  useEffect(() => {
+    setLoaded(slides && images)
+  }, [slides, images])
+
+  const currentSlide = slides[slideNum] || null
   return (
     <div className="App">
       <Helmet>
@@ -95,16 +97,16 @@ function App() {
       </Helmet>
       <GlobalStyle />
       <Video ref={videoRef} autoPlay />
-      <Slide>
-        <Title>
-          <Upload uploadHandler={uploadJSON} />
-          <Upload uploadHandler={uploadImages} />
-          {currentSlide.title}
-        </Title>
-        <Textbox>{currentSlide.text}</Textbox>
-        <Content content={currentSlide.content} />
-        <Webcam videoRef={videoRef}></Webcam>
-      </Slide>
+      <Upload uploadHandler={uploadJSON} />
+      <Upload uploadHandler={uploadImages} />
+      {loaded && (
+        <Slide>
+          <Title>{currentSlide.title}</Title>
+          <Textbox>{currentSlide.text}</Textbox>
+          <Content content={currentSlide.content} images={images} />
+          <Webcam videoRef={videoRef}></Webcam>
+        </Slide>
+      )}
     </div>
   )
 }

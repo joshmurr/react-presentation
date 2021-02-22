@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { PropTypes } from 'prop-types'
 import styled from 'styled-components'
 import Image from './Image'
@@ -49,32 +48,11 @@ const Text = styled.div`
 const isImage = (item) =>
   item.startsWith('/static/media/', 0) ||
   item.startsWith('data:image', 0) ||
-  item.includes('image')
+  item.match(/.*\.(gif|jpe?g|bmp|png)$/gim)
 
-//const reader = (file) => {
-  //return new Promise((resolve, reject) => {
-    //const fileReader = new FileReader()
-    //fileReader.onload = () => resolve(fileReader.result)
-    //fileReader.readAsDataURL(file)
-  //})
-//}
-
-//function getDataUrl(path, imgURLSetter) {
-  //const absPath = path.replace(
-    //'.',
-    //'/home/joshmurr/Documents/CCI/visualisation_and_sensing/week_01/slides'
-  //)
-  //fetch(absPath)
-    //.then((r) => r.blob())
-    //.then((blobFile) => new File([blobFile], 'tmpName', { type: 'image/png' }))
-    //.then((file) => reader(file))
-    //.then((result) => imgURLSetter(result))
-    //.catch((err) => console.log(err))
-//}
-
-const getComponent = (t) => {
+const getComponent = (t, images) => {
   if (isImage(t)) {
-    return <Image src={t}></Image>
+    return <Image src={images[t]}></Image>
   } else if (t.length === 11) {
     return (
       <iframe
@@ -92,11 +70,12 @@ const getComponent = (t) => {
   }
 }
 
-function Content({ content = [] }) {
+function Content({ content = [], images = {} }) {
+  console.log(content)
   return (
     <Container>
       {content.map((thing) => (
-        <Item>{getComponent(thing)}</Item>
+        <Item>{getComponent(thing, images)}</Item>
       ))}
     </Container>
   )
