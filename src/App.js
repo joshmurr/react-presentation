@@ -27,6 +27,8 @@ function App() {
   const [images, setImages] = useState(null)
   const [slideNum, setSlideNum] = useState(0)
   const [loaded, setLoaded] = useState(false)
+  const [hideCam, setHideCam] = useState(true)
+
   const videoRef = useRef(null)
 
   function uploadImages(e) {
@@ -75,6 +77,8 @@ function App() {
         setSlideNum((prev) => Math.max(0, prev - 1))
       } else if (KEYS.right.includes(key)) {
         setSlideNum((prev) => Math.min(prev + 1, slides.length - 1))
+      } else if (key === 'h') {
+        setHideCam((prev) => !prev)
       }
     }
     window.addEventListener('keyup', upHandler)
@@ -104,7 +108,7 @@ function App() {
           <Title>{currentSlide.title}</Title>
           <Textbox>{currentSlide.text}</Textbox>
           <Content content={currentSlide.content} images={images} />
-          <Webcam videoRef={videoRef}></Webcam>
+          <Webcam videoRef={videoRef} hide={hideCam}></Webcam>
         </Slide>
       )}
     </div>

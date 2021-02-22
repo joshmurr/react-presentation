@@ -14,6 +14,7 @@ const Container = styled.div`
   grid-template-rows: 1fr;
   align-items: center;
   justify-content: center;
+  gap: var(--gap);
 `
 
 const Item = styled.div`
@@ -25,16 +26,20 @@ const Item = styled.div`
 `
 
 const Text = styled.div`
-  width: 80%;
-  margin: 20px;
+  //margin: 20px;
+  width: 94%;
   padding: 20px;
-  background-color: grey;
+  background-color: lightgrey;
   border-radius: var(--b-rad);
   font-family: 'Fira Sans Condensed', sans-serif;
   font-size: 2em;
+  justify-self: left;
   h3 {
     margin: 0;
     padding: 0;
+  }
+  section {
+    justify-self: left;
   }
   ul {
     margin: 0;
@@ -65,13 +70,24 @@ const getComponent = (t, images) => {
         allowfullscreen
       ></iframe>
     )
+  } else if (t.length === 8) {
+    return (
+      <iframe
+        title={t}
+        src={`https://player.vimeo.com/video/${t}`}
+        width="640"
+        height="480"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    )
   } else {
     return <Text dangerouslySetInnerHTML={{ __html: t }} />
   }
 }
 
 function Content({ content = [], images = {} }) {
-  console.log(content)
   return (
     <Container>
       {content.map((thing) => (

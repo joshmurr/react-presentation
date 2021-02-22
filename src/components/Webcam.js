@@ -1,36 +1,36 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import WebGLCam from './WebGLCam'
 import { initVideo } from '../webglUtils.js'
 
 const Container = styled.div`
-	position: relative;
-	overflow: hidden;
+  position: relative;
+  overflow: hidden;
   background-color: grey;
-	grid-area: webcam;
-	/* 16:9 Aspect Ratio Trick */
-	/* https://css-tricks.com/aspect-ratio-boxes/ */
-	height: 0px;
-	padding-top: 56.25%;
-	border-radius: 15px;
-`;
+  grid-area: webcam;
+  /* 16:9 Aspect Ratio Trick */
+  /* https://css-tricks.com/aspect-ratio-boxes/ */
+  height: 0px;
+  padding-top: 56.25%;
+  border-radius: 15px;
+`
 
-function Webcam({ videoRef }){
-	const videoHandler = () => {
-		initVideo(videoRef.current);
-	}
+function Webcam({ videoRef, hide }) {
+  const videoHandler = () => {
+    initVideo(videoRef.current)
+  }
   useEffect(() => {
-    window.addEventListener('click', videoHandler);
+    window.addEventListener('click', videoHandler)
     return () => {
-      window.removeEventListener('click', videoHandler);
-    };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+      window.removeEventListener('click', videoHandler)
+    }
+  }, []) // Empty array ensures that effect is only run on mount and unmount
 
   return (
     <Container>
-			<WebGLCam videoRef={videoRef}></WebGLCam>
+      <WebGLCam videoRef={videoRef} hide={hide}></WebGLCam>
     </Container>
-  );
+  )
 }
 
-export default Webcam;
+export default Webcam

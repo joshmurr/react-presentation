@@ -9,9 +9,14 @@
       ]
     },
     {
+      "title": "Introductions",
+      "text": "",
+      "content": ["<section>This is a section</section>"]
+    },
+    {
       "title": "Past Life",
       "text": "",
-      "content": ["flowers.png"]
+      "content": ["flowers.png", "flowers.png"]
     },
     {
       "title": "Slide Three",

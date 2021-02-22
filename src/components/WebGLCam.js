@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 import { useEffect, useRef } from 'react'
 
-import { createProgram, createTexture, setupVertexAttribs } from '../webglUtils.js'
+import {
+  createProgram,
+  createTexture,
+  setupVertexAttribs,
+} from '../webglUtils.js'
 
 const vs = `#version 300 es
   in vec4 a_position;
@@ -12,7 +16,7 @@ const vs = `#version 300 es
     gl_Position = a_position * vec4(vec2(-1.0), vec2(1.0));
     v_texcoord = a_texcoord;
   }
-`;
+`
 const fs = `#version 300 es
   precision mediump float;
   precision mediump sampler2D;
@@ -43,13 +47,18 @@ const fs = `#version 300 es
 
 		outcolor = texture(u_texture, v_texcoord) * 0.5;
   }
-`;
+`
 
 const swirl_fs = `#version 300 es
 	// https://www.shadertoy.com/view/wlVGWd
 
   precision mediump float;
   precision mediump sampler2D;
+  uniform sampler2D u_texture;
+	uniform bool u_effect;
+  in vec2 v_texcoord;
+
+	out vec4 outcolor;
 
 	uniform float u_time;
 
@@ -87,85 +96,94 @@ const swirl_fs = `#version 300 es
 		return fbm( p + 1.760*r );
 	}
 
-  uniform sampler2D u_texture;
-  in vec2 v_texcoord;
-  out vec4 outcolor;
-
   void main(){
 		vec2 uv = v_texcoord;
-    uv *= 2.0; // Scale UV to make it nicer in that big screen !
+    //uv *= 1.00;
   	float displacement = pattern(uv);
     //vec4 color = vec4(displacement * 1.2, 0.2, displacement * 5., 1.);
-		outcolor = vec4(vec3(displacement), 1.0);
+		if(u_effect) {
+			//outcolor = vec4(vec3(displacement), 1.0);
+			outcolor = texture(u_texture, v_texcoord);
+		} else {
+			outcolor = texture(u_texture, vec2(displacement));
+		}
   }
-`;
-
-
-const StyledCanvas = styled.canvas`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
 `
 
-export default function WebGLCam({ videoRef }){
-	const canvasRef = useRef(null);
+const StyledCanvas = styled.canvas`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`
 
-	useEffect(() => {
-		const canvas = canvasRef.current;
-		const video = videoRef.current;
-		const gl = canvas.getContext('webgl2');
-		let frameID;
+export default function WebGLCam({ videoRef, hide }) {
+  const canvasRef = useRef(null)
 
-		const init = () => {
-			const program = createProgram(gl, vs, swirl_fs);
-			setupVertexAttribs(gl, program);
-			gl.useProgram(program);
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const video = videoRef.current
+    const gl = canvas.getContext('webgl2')
+    let frameID
 
-			const programInfo = {
-				video: video,
-				videoTex: createTexture(gl, gl.canvas.width, gl.canvas.height),
-				videoTexLoc: gl.getUniformLocation(program, 'u_texture'),
-				u_time: gl.getUniformLocation(program, 'u_time'),
-				u_time_val: 0,
-				dither: false,
-			}
+    const init = () => {
+      const program = createProgram(gl, vs, swirl_fs)
+      setupVertexAttribs(gl, program)
+      gl.useProgram(program)
 
-			return programInfo;
-		}
-		
-		let programInfo = init();
+      const programInfo = {
+        video: video,
+        videoTex: createTexture(gl, gl.canvas.width, gl.canvas.height),
+        videoTexLoc: gl.getUniformLocation(program, 'u_texture'),
+        u_time: gl.getUniformLocation(program, 'u_time'),
+        u_time_val: 0,
+        u_effect_val: hide,
+        u_effect: gl.getUniformLocation(program, 'u_effect'),
+        dither: false,
+      }
 
-		const render = () => {
-			if(video.srcObject) draw(gl, programInfo);
-			frameID = window.requestAnimationFrame(render);
-		};
+      return programInfo
+    }
 
-		render();
+    let programInfo = init()
 
-		function draw(gl, program){
-			gl.activeTexture(gl.TEXTURE0 + 0);
-			gl.uniform1i(program.videoTexLoc, 0);
-			gl.bindTexture(gl.TEXTURE_2D, program.videoTex);
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB8, gl.RGB, gl.UNSIGNED_BYTE, program.video);
-			gl.uniform1f(program.u_time, program.u_time_val);
+    const render = () => {
+      if (video.srcObject) draw(gl, programInfo)
+      frameID = window.requestAnimationFrame(render)
+    }
 
-			program.u_time_val += 0.01;
+    render()
 
-			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-			gl.drawArrays(gl.TRIANGLES, 0, 6);
-		}
+    function draw(gl, program) {
+      gl.activeTexture(gl.TEXTURE0 + 0)
+      gl.uniform1i(program.videoTexLoc, 0)
+      gl.bindTexture(gl.TEXTURE_2D, program.videoTex)
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGB8,
+        gl.RGB,
+        gl.UNSIGNED_BYTE,
+        program.video
+      )
+      gl.uniform1f(program.u_time, program.u_time_val)
+      gl.uniform1f(program.u_effect, program.u_effect_val)
 
-		return () => {
-			window.cancelAnimationFrame(frameID);
-		};
+      program.u_time_val += 0.01
 
-	}, [videoRef])
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+      gl.drawArrays(gl.TRIANGLES, 0, 6)
+    }
 
-	return (
-		<>
-			<StyledCanvas ref={canvasRef}></StyledCanvas>
-		</>
-	)
+    return () => {
+      window.cancelAnimationFrame(frameID)
+    }
+  }, [videoRef, hide])
+
+  return (
+    <>
+      <StyledCanvas ref={canvasRef}></StyledCanvas>
+    </>
+  )
 }
