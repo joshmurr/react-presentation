@@ -1,0 +1,26 @@
+{
+  "title": "whoami",
+  "slidesList": [
+    {
+      "title": "Introductions",
+      "text": "",
+      "content": [
+        "<ul><li>Josh Murr</li><li>@joshmurr</li><li>www.joshmurr.com</li><li>j.murr@arts.ac.uk</li></ul>"
+      ]
+    },
+    {
+      "title": "Past Life",
+      "text": "",
+      "content": ["flowers.png"]
+    },
+    {
+      "title": "Slide Three",
+      "text": "",
+      "content": ["8FGRpCrG2Dc"]
+    },
+    {
+      "title": "Empty Slide",
+      "content": ["cnn.png"]
+    }
+  ]
+}
