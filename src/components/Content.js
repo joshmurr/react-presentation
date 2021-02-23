@@ -53,7 +53,7 @@ const Text = styled.div`
 const isImage = (item) =>
   item.startsWith('/static/media/', 0) ||
   item.startsWith('data:image', 0) ||
-  item.match(/.*\.(gif|jpe?g|bmp|png)$/gim)
+  item.match(/.*\.(gif|jpe?g|bmp|png|svg)$/gim)
 
 const getComponent = (t, images) => {
   if (isImage(t)) {
@@ -70,13 +70,13 @@ const getComponent = (t, images) => {
         allowfullscreen
       ></iframe>
     )
-  } else if (t.length === 8) {
+  } else if (t.length === 8 || t.length === 9) {
     return (
       <iframe
         title={t}
         src={`https://player.vimeo.com/video/${t}`}
-        width="640"
-        height="480"
+        width="1280"
+        height="720"
         frameborder="0"
         allow="autoplay; fullscreen; picture-in-picture"
         allowfullscreen
