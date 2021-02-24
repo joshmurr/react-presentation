@@ -10,7 +10,7 @@ import Content from './components/Content'
 import Webcam from './components/Webcam'
 import Upload from './components/Upload'
 
-import { slides_data } from './slides'
+//import { slides_data } from './slides'
 
 const Video = styled.video`
   display: none;
@@ -23,7 +23,7 @@ const KEYS = {
 
 function App() {
   const [title, setTitle] = useState('NO DATA')
-  const [slides, setSlidesInfo] = useState([])
+  const [slides, setSlidesInfo] = useState(null)
   const [images, setImages] = useState(null)
   const [slideNum, setSlideNum] = useState(0)
   const [loaded, setLoaded] = useState(false)
@@ -53,8 +53,6 @@ function App() {
 
   function uploadJSON(e) {
     const file = e.target.files[0]
-    console.log(file)
-
     const reader = new FileReader()
 
     if (!file.type.match('application/json')) {
@@ -91,7 +89,8 @@ function App() {
     setLoaded(slides && images)
   }, [slides, images])
 
-  const currentSlide = slides[slideNum] || null
+  let currentSlide
+  if (slides) currentSlide = slides[slideNum]
   return (
     <div className="App">
       <Helmet>
@@ -101,8 +100,8 @@ function App() {
       </Helmet>
       <GlobalStyle />
       <Video ref={videoRef} autoPlay />
-      <Upload uploadHandler={uploadJSON} />
-      <Upload uploadHandler={uploadImages} />
+      <Upload name="json-file" uploadHandler={uploadJSON} />
+      <Upload name="images" uploadHandler={uploadImages} />
       {loaded && (
         <Slide>
           <Title>{currentSlide.title}</Title>

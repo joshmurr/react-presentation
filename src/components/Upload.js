@@ -5,10 +5,26 @@ const FormGroup = styled.div`
   grid-area: content;
 `
 
-function Upload({ uploadHandler, show }) {
+const tidy = (word) => {
+  return (
+    word
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ') + ':  '
+  )
+}
+
+function Upload({ uploadHandler, name, show }) {
   return (
     <FormGroup show={true}>
-      <input type="file" name="slides_data" onChange={uploadHandler} multiple />
+      <label for={name}>{tidy(name)}</label>
+      <input
+        id={name}
+        type="file"
+        name="slides_data"
+        onChange={uploadHandler}
+        multiple
+      />
     </FormGroup>
   )
 }
