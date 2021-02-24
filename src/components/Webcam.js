@@ -24,7 +24,7 @@ function Webcam({ videoRef, hide }) {
     return () => {
       window.removeEventListener('click', videoHandler)
     }
-  }, []) // Empty array ensures that effect is only run on mount and unmount
+  }, [videoHandler]) // Empty array ensures that effect is only run on mount and unmount
 
   return (
     <Container>
