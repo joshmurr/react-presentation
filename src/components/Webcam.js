@@ -16,15 +16,12 @@ const Container = styled.div`
 `
 
 function Webcam({ videoRef, hide }) {
-  const videoHandler = () => {
-    initVideo(videoRef.current)
-  }
   useEffect(() => {
-    window.addEventListener('click', videoHandler)
+    window.addEventListener('click', () => initVideo(videoRef.current))
     return () => {
-      window.removeEventListener('click', videoHandler)
+      window.removeEventListener('click', () => initVideo(videoRef))
     }
-  }, [videoHandler]) // Empty array ensures that effect is only run on mount and unmount
+  }, [videoRef])
 
   return (
     <Container>
