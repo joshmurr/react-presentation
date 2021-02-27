@@ -10,8 +10,6 @@ import Content from './components/Content'
 import Webcam from './components/Webcam'
 import Upload from './components/Upload'
 
-//import { slides_data } from './slides'
-
 const Video = styled.video`
   display: none;
 `
@@ -105,7 +103,7 @@ function App() {
       {loaded && (
         <Slide>
           <Title>{currentSlide.title}</Title>
-          <Textbox>{currentSlide.text}</Textbox>
+          <Textbox content={currentSlide.text}></Textbox>
           <Content content={currentSlide.content} images={images} />
           <Webcam videoRef={videoRef} hide={hideCam}></Webcam>
         </Slide>

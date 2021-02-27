@@ -10,95 +10,80 @@ const Container = styled.div`
   overflow-y: scroll;
   scrollbar-width: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  grid-template-rows: 1fr;
-  align-items: center;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(120px, 1fr));
+  align-content: center;
+  justify-items: center;
   gap: var(--gap);
 `
 
-const Item = styled.div`
-  display: grid;
-  justify-items: center;
-  align-content: center;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(auto-fit, minmax(320px, 1fr));
+const Section = styled.section`
+  align-self: start;
+  color: red;
 `
 
-const Text = styled.div`
-  //margin: 20px;
-  width: 94%;
-  padding: 20px;
+const getVideo = (url) => (
+  <iframe
+    title="Video"
+    width="1280"
+    height="720"
+    src={url}
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  ></iframe>
+)
+
+const UL = styled.ul`
+  align-self: start;
+  justify-self: left;
+  width: 80%;
   background-color: lightgrey;
   border-radius: var(--b-rad);
-  font-family: 'Fira Sans Condensed', sans-serif;
+  margin: 40px;
+  padding: 20px;
+  list-style-type: none;
   font-size: 2em;
-  justify-self: left;
-  h3 {
-    margin: 0;
-    padding: 0;
-  }
-  section {
-    justify-self: left;
-  }
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    li::before {
-      content: '-   ';
-    }
+`
+const LI = styled.li`
+  margin: 8px 0;
+  &:before {
+    content: '-   ';
   }
 `
-const isImage = (item) =>
-  item.startsWith('/static/media/', 0) ||
-  item.startsWith('data:image', 0) ||
-  item.match(/.*\.(gif|jpe?g|bmp|png|svg)$/gim)
 
 const getComponent = (t, images) => {
-  if (isImage(t)) {
-    return <Image src={images[t]}></Image>
-  } else if (t.length === 11) {
-    return (
-      <iframe
-        title={t}
-        width="1280"
-        height="720"
-        src={`https://www.youtube.com/embed/${t}`}
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    )
-  } else if (t.length === 8 || t.length === 9) {
-    return (
-      <iframe
-        title={t}
-        src={`https://player.vimeo.com/video/${t}`}
-        width="1280"
-        height="720"
-        frameborder="0"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    )
-  } else {
-    return <Text dangerouslySetInnerHTML={{ __html: t }} />
+  const key = Object.keys(t)[0]
+  switch (key) {
+    case 'image':
+      return <Image src={images[t[key]]}></Image>
+    case 'youtube':
+      return getVideo(`https://www.youtube.com/embed/${t[key]}`)
+    case 'vimeo':
+      return getVideo(`https://player.vimeo.com/video/${t[key]}`)
+    case 'ul':
+      return (
+        <UL>
+          {t[key].map((li) => (
+            <LI>{li}</LI>
+          ))}
+        </UL>
+      )
+    case 'text':
+    default:
+      return <Section>{t[key]}</Section>
   }
 }
 
 function Content({ content = [], images = {} }) {
   return (
-    <Container>
-      {content.map((thing) => (
-        <Item>{getComponent(thing, images)}</Item>
-      ))}
-    </Container>
+    <Container>{content.map((thing) => getComponent(thing, images))}</Container>
   )
 }
 
 Content.propTypes = {
   content: PropTypes.array,
+  images: PropTypes.object,
 }
 
 export default Content

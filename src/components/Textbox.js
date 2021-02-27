@@ -1,4 +1,6 @@
+import { PropTypes } from 'prop-types'
 import styled from 'styled-components'
+import parseHTML from 'html-react-parser'
 
 const Container = styled.div`
   background-color: white;
@@ -7,28 +9,58 @@ const Container = styled.div`
   border-radius: 15px;
   overflow-y: scroll;
   scrollbar-width: none;
-`
-
-const Text = styled.div`
-  margin: 0;
-  font-size: 20px;
-  font-family: 'Fira Sans Condensed', sans-serif;
   font-size: 1.3em;
   line-height: 1.3em;
-  h3 {
-    margin: 0;
-    margin-bottom: 1em;
+`
+
+const H3 = styled.h3`
+  margin: 0;
+  margin-bottom: 1em;
+  font-style: italic;
+  font-weight: bold;
+`
+const OL = styled.ol`
+  margin: 0;
+  padding: 0 20px;
+`
+const LI = styled.li``
+
+const Text = styled.p`
+  margin: 0;
+  margin-bottom: 15px;
+  b {
     font-style: italic;
-    font-weight: bold;
   }
 `
 
-function Textbox({ children }) {
-  return (
-    <Container>
-      <Text dangerouslySetInnerHTML={{ __html: children }} />
-    </Container>
-  )
+const getComponent = (t) => {
+  const key = Object.keys(t)[0]
+  switch (key) {
+    case 'h3':
+      return <H3>{t[key]}</H3>
+    case 'ol':
+      return (
+        <OL>
+          {t[key].map((li) => (
+            <LI>{li}</LI>
+          ))}
+        </OL>
+      )
+    case 'p':
+    case 'text':
+    default:
+      return <Text>{parseHTML(t[key])}</Text>
+  }
+}
+
+function Textbox({ content = [] }) {
+  let children =
+    typeof content === 'string' ? parseHTML(content) : content.map(getComponent)
+  return <Container>{children}</Container>
+}
+
+Textbox.propTypes = {
+  content: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
 }
 
 export default Textbox

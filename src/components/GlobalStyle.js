@@ -7,6 +7,7 @@ const GlobalStyle = createGlobalStyle`
 	}
 	body {
 		overflow: hidden;
+		font-family: 'Fira Sans Condensed', sans-serif;
 	}
 `
 

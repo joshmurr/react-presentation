@@ -93,9 +93,9 @@ export const swirl_fs = `#version 300 es
     //vec4 color = vec4(displacement * 1.2, 0.2, displacement * 5., 1.);
 		if(u_effect) {
 			//outcolor = vec4(vec3(displacement), 1.0);
-			outcolor = texture(u_texture, v_texcoord);
-		} else {
 			outcolor = texture(u_texture, vec2(displacement));
+		} else {
+			outcolor = texture(u_texture, v_texcoord);
 		}
   }
 `
