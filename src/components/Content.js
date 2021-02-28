@@ -1,6 +1,7 @@
 import { PropTypes } from 'prop-types'
 import styled from 'styled-components'
 import Image from './Image'
+import parseHTML from 'html-react-parser'
 
 const Container = styled.div`
   background-color: #ddd;
@@ -19,11 +20,22 @@ const Container = styled.div`
 
 const Section = styled.section`
   align-self: start;
-  color: red;
+  justify-self: left;
+  width: 80%;
+  background-color: lightgrey;
+  border-radius: var(--b-rad);
+  margin: 40px;
+  padding: 20px;
+  font-size: 3em;
+`
+
+const IFrame = styled.iframe`
+  align-self: center;
+  border: none;
 `
 
 const getVideo = (url) => (
-  <iframe
+  <IFrame
     title="Video"
     width="1280"
     height="720"
@@ -31,7 +43,7 @@ const getVideo = (url) => (
     frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
-  ></iframe>
+  ></IFrame>
 )
 
 const UL = styled.ul`
@@ -50,6 +62,9 @@ const LI = styled.li`
   &:before {
     content: '-   ';
   }
+`
+const Title = styled.h1`
+  font-size: 3em;
 `
 
 const getComponent = (t, images) => {
@@ -71,7 +86,7 @@ const getComponent = (t, images) => {
       )
     case 'text':
     default:
-      return <Section>{t[key]}</Section>
+      return <Section>{parseHTML(t[key])}</Section>
   }
 }
 
