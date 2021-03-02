@@ -63,10 +63,6 @@ const LI = styled.li`
     content: '-   ';
   }
 `
-const Title = styled.h1`
-  font-size: 3em;
-`
-
 const getComponent = (t, images) => {
   const key = Object.keys(t)[0]
   switch (key) {
