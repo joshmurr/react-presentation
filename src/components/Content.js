@@ -4,7 +4,7 @@ import Image from './Image'
 import parseHTML from 'html-react-parser'
 
 const Container = styled.div`
-  background-color: #ddd;
+  background-color: var(--fg-col);
   border-radius: var(--b-rad);
   grid-area: content;
   padding: var(--gap);
@@ -22,7 +22,7 @@ const Section = styled.section`
   align-self: start;
   justify-self: left;
   width: 80%;
-  background-color: lightgrey;
+  background-color: var(--sec-col);
   border-radius: var(--b-rad);
   margin: 40px;
   padding: 20px;
@@ -50,7 +50,7 @@ const UL = styled.ul`
   align-self: start;
   justify-self: left;
   width: 80%;
-  background-color: lightgrey;
+  background-color: var(--sec-col);
   border-radius: var(--b-rad);
   margin: 40px;
   padding: 20px;
@@ -63,7 +63,7 @@ const LI = styled.li`
     content: '-   ';
   }
 `
-const getComponent = (t, images) => {
+const getComponent = (t, images, i) => {
   const key = Object.keys(t)[0]
   switch (key) {
     case 'image':
@@ -82,13 +82,15 @@ const getComponent = (t, images) => {
       )
     case 'text':
     default:
-      return <Section>{parseHTML(t[key])}</Section>
+      return <Section key={i}>{parseHTML(t[key])}</Section>
   }
 }
 
 function Content({ content = [], images = {} }) {
   return (
-    <Container>{content.map((thing) => getComponent(thing, images))}</Container>
+    <Container>
+      {content.map((thing, i) => getComponent(thing, images, i))}
+    </Container>
   )
 }
 

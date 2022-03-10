@@ -19,6 +19,12 @@ const KEYS = {
   right: ['ArrowRight', 'r', 'R', 'd', 'D'],
 }
 
+const randomRGB = (r) => {
+  if (r < 0.33) return '#F00'
+  if (r < 0.66) return '#0F0'
+  return '#00F'
+}
+
 function App() {
   const [title, setTitle] = useState('NO DATA')
   const [slides, setSlidesInfo] = useState(null)
@@ -102,7 +108,7 @@ function App() {
       <Upload name="images" uploadHandler={uploadImages} />
       {loaded && (
         <Slide>
-          <Title>{currentSlide.title}</Title>
+          <Title colour={randomRGB(Math.random())}>{currentSlide.title}</Title>
           <Textbox content={currentSlide.text}></Textbox>
           <Content content={currentSlide.content} images={images} />
           <Webcam videoRef={videoRef} hide={hideCam}></Webcam>

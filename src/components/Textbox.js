@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import parseHTML from 'html-react-parser'
 
 const Container = styled.div`
-  background-color: white;
+  background-color: var(--fg-col);
   grid-area: textbox;
   padding: 20px;
   border-radius: 15px;
@@ -11,6 +11,7 @@ const Container = styled.div`
   scrollbar-width: none;
   font-size: 1.3em;
   line-height: 1.3em;
+  color: var(--textbox-font-col);
 `
 
 const H3 = styled.h3`
@@ -42,7 +43,7 @@ const getComponent = (t) => {
       return (
         <OL>
           {t[key].map((li) => (
-            <LI>{li}</LI>
+            <LI>{parseHTML(li)}</LI>
           ))}
         </OL>
       )

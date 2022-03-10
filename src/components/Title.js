@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const Container = styled.div`
   grid-area: title;
   padding: 10px 20px;
-  background-color: #ddd;
+  background-color: var(--fg-col);
   border-radius: 20px;
 `
 
@@ -11,12 +11,13 @@ const Text = styled.h1`
   margin: 0;
   font-size: 2.8em;
   font-family: 'Roboto', sans-serif;
+  color: ${(props) => props.colour};
 `
 
-function Title({ children }) {
+function Title({ colour, children }) {
   return (
     <Container>
-      <Text>{children}</Text>
+      <Text colour={colour}>{children}</Text>
     </Container>
   )
 }
