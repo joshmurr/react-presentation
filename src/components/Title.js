@@ -2,15 +2,18 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   grid-area: title;
-  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--fg-col);
-  border-radius: 20px;
+  border-radius: var(--b-rad);
 `
 
 const Text = styled.h1`
   margin: 0;
   font-size: 2.8em;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Mono', sans-serif;
+  font-style: italic;
   color: ${(props) => props.colour};
 `
 

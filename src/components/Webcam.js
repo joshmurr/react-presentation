@@ -12,7 +12,7 @@ const Container = styled.div`
   /* https://css-tricks.com/aspect-ratio-boxes/ */
   height: 0px;
   padding-top: 56.25%;
-  border-radius: 15px;
+  border-radius: var(--b-rad);
 `
 
 function Webcam({ videoRef, hide }) {

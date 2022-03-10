@@ -6,12 +6,14 @@ const Container = styled.div`
   background-color: var(--fg-col);
   grid-area: textbox;
   padding: 20px;
-  border-radius: 15px;
+  border-radius: var(--b-rad);
   overflow-y: scroll;
   scrollbar-width: none;
   font-size: 1.3em;
   line-height: 1.3em;
-  color: var(--textbox-font-col);
+  color: var(--text-col);
+  display: flex;
+  flex-direction: column;
 `
 
 const H3 = styled.h3`
@@ -34,6 +36,26 @@ const Text = styled.p`
   }
 `
 
+const DateWrapper = styled.div`
+  display: flex;
+  flex-grow: 1;
+`
+
+const Date = styled.span`
+  text-align: right;
+  width: 100%;
+  align-self: flex-end;
+  color: #ccc;
+`
+
+function DateBox(date) {
+  return (
+    <DateWrapper>
+      <Date>{date}</Date>
+    </DateWrapper>
+  )
+}
+
 const getComponent = (t) => {
   const key = Object.keys(t)[0]
   switch (key) {
@@ -47,6 +69,8 @@ const getComponent = (t) => {
           ))}
         </OL>
       )
+    case 'date':
+      return DateBox(t[key])
     case 'p':
     case 'text':
     default:

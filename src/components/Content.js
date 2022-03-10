@@ -16,16 +16,13 @@ const Container = styled.div`
   align-content: center;
   justify-items: center;
   gap: var(--gap);
+  color: var(--text-col);
 `
 
 const Section = styled.section`
-  align-self: start;
-  justify-self: left;
   width: 80%;
   background-color: var(--sec-col);
   border-radius: var(--b-rad);
-  margin: 40px;
-  padding: 20px;
   font-size: 3em;
 `
 
@@ -47,23 +44,39 @@ const getVideo = (url) => (
 )
 
 const UL = styled.ul`
-  align-self: start;
-  justify-self: left;
   width: 80%;
   background-color: var(--sec-col);
   border-radius: var(--b-rad);
-  margin: 40px;
-  padding: 20px;
   list-style-type: none;
   font-size: 2em;
 `
 const LI = styled.li`
   margin: 8px 0;
-  &:before {
+  /* &:before {
     content: '-   ';
+  } */
+`
+
+const ASIDE = styled.aside`
+  text-align: center;
+  font-size: 3em;
+  font-family: 'Roboto Mono';
+  height: 60%;
+  padding: 1em 6em;
+  align-self: center;
+  background-color: #111;
+  border-radius: var(--b-rad);
+`
+const Text = styled.p`
+  margin: 0;
+  margin-bottom: 15px;
+  b {
+    font-style: italic;
   }
 `
+
 const getComponent = (t, images, i) => {
+  console.log(t)
   const key = Object.keys(t)[0]
   switch (key) {
     case 'image':
@@ -79,6 +92,14 @@ const getComponent = (t, images, i) => {
             <LI>{li}</LI>
           ))}
         </UL>
+      )
+    case 'aside':
+      return (
+        <ASIDE>
+          {t[key].map((p) => (
+            <Text>{p}</Text>
+          ))}
+        </ASIDE>
       )
     case 'text':
     default:

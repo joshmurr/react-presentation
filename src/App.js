@@ -25,6 +25,34 @@ const randomRGB = (r) => {
   return '#00F'
 }
 
+function sortFiles(files, setTitle, setSlidesInfo) {
+  let images = {}
+  for (let i = 0, f; (f = files[i]); i++) {
+    const reader = new FileReader()
+    if (f.type.match('image/*')) {
+      reader.onload = (function (file) {
+        return function (e) {
+          images[escape(file.name)] = e.target.result
+        }
+      })(f)
+
+      reader.readAsDataURL(f)
+    } else if (f.type.match('application/json')) {
+      console.log(f)
+      reader.onload = (function (file) {
+        return function (e) {
+          const json = JSON.parse(e.target.result)
+          setTitle(json.title)
+          setSlidesInfo(json.slidesList)
+        }
+      })(f)
+      reader.readAsText(f)
+    }
+  }
+
+  return images
+}
+
 function App() {
   const [title, setTitle] = useState('NO DATA')
   const [slides, setSlidesInfo] = useState(null)
@@ -35,42 +63,10 @@ function App() {
 
   const videoRef = useRef(null)
 
-  function uploadImages(e) {
-    let images = {}
+  function uploadAll(e) {
     const files = e.target.files
-
-    for (let i = 0, f; (f = files[i]); i++) {
-      const reader = new FileReader()
-
-      if (f.type.match('image/*')) {
-        reader.onload = (function (file) {
-          return function (e) {
-            images[escape(file.name)] = e.target.result
-          }
-        })(f)
-
-        reader.readAsDataURL(f)
-      }
-    }
+    const images = sortFiles(files, setTitle, setSlidesInfo)
     setImages(images)
-  }
-
-  function uploadJSON(e) {
-    const file = e.target.files[0]
-    const reader = new FileReader()
-
-    if (!file.type.match('application/json')) {
-      return
-    }
-    reader.onload = (function (f) {
-      return function (e) {
-        const json = JSON.parse(e.target.result)
-        setTitle(json.title)
-        setSlidesInfo(json.slidesList)
-      }
-    })(file)
-
-    reader.readAsText(file)
   }
 
   useEffect(() => {
@@ -93,6 +89,8 @@ function App() {
     setLoaded(slides && images)
   }, [slides, images])
 
+  const RGB = randomRGB(Math.random())
+
   let currentSlide
   if (slides) currentSlide = slides[slideNum]
   return (
@@ -104,11 +102,10 @@ function App() {
       </Helmet>
       <GlobalStyle />
       <Video ref={videoRef} autoPlay />
-      <Upload name="json-file" uploadHandler={uploadJSON} />
-      <Upload name="images" uploadHandler={uploadImages} />
+      <Upload name="files" uploadHandler={uploadAll} />
       {loaded && (
-        <Slide>
-          <Title colour={randomRGB(Math.random())}>{currentSlide.title}</Title>
+        <Slide backgroundColour={RGB}>
+          <Title colour={RGB}>{currentSlide.title}</Title>
           <Textbox content={currentSlide.text}></Textbox>
           <Content content={currentSlide.content} images={images} />
           <Webcam videoRef={videoRef} hide={hideCam}></Webcam>
