@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   background-color: ${(props) =>
-    props.backgroundColour ? props.backgroundColour : 'var(--bg-col)'};
+    props.colour ? props.colour : 'var(--bg-col)'};
   position: absolute;
   top: 0px;
   left: 0px;
@@ -19,10 +19,17 @@ const Container = styled.div`
     'title textbox'
     'content textbox'
     'content webcam';
+
+  h1 {
+    color: ${(props) => (props.colour ? props.colour : 'white')};
+  }
+  a {
+    color: ${(props) => (props.colour ? props.colour : '#00f')};
+  }
 `
 
-function Slide({ backgroundColour, children }) {
-  return <Container backgroundColour={backgroundColour}>{children}</Container>
+function Slide({ colour, children }) {
+  return <Container colour={colour}>{children}</Container>
 }
 
 export default Slide

@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Roboto Mono';
     src: url(${RobotoMono}), url(${RobotoMonoItalic});
-	 }
+  }
 `
 
 export default GlobalStyle

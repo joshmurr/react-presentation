@@ -9,7 +9,7 @@ const Container = styled.div`
   border-radius: var(--b-rad);
   overflow-y: scroll;
   scrollbar-width: none;
-  font-size: 1.3em;
+  font-size: 1.6em;
   line-height: 1.3em;
   color: var(--text-col);
   display: flex;

@@ -14,7 +14,6 @@ const Text = styled.h1`
   font-size: 2.8em;
   font-family: 'Roboto Mono', sans-serif;
   font-style: italic;
-  color: ${(props) => props.colour};
 `
 
 function Title({ colour, children }) {

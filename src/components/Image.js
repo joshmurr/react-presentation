@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const Img = styled.img`
   max-width: 100%;
+  max-height: 90%;
   align-self: center;
 `
 

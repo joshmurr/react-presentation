@@ -45,13 +45,14 @@ const getVideo = (url) => (
 
 const UL = styled.ul`
   width: 80%;
-  background-color: var(--sec-col);
+  background-color: var(--bg-col);
   border-radius: var(--b-rad);
   list-style-type: none;
   font-size: 2em;
 `
 const LI = styled.li`
-  margin: 8px 0;
+  margin: 1.2em 0;
+
   /* &:before {
     content: '-   ';
   } */
@@ -61,8 +62,7 @@ const ASIDE = styled.aside`
   text-align: center;
   font-size: 3em;
   font-family: 'Roboto Mono';
-  height: 60%;
-  padding: 1em 6em;
+  padding: 1em 4em;
   align-self: center;
   background-color: #111;
   border-radius: var(--b-rad);
@@ -76,7 +76,6 @@ const Text = styled.p`
 `
 
 const getComponent = (t, images, i) => {
-  console.log(t)
   const key = Object.keys(t)[0]
   switch (key) {
     case 'image':

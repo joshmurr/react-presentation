@@ -38,7 +38,6 @@ function sortFiles(files, setTitle, setSlidesInfo) {
 
       reader.readAsDataURL(f)
     } else if (f.type.match('application/json')) {
-      console.log(f)
       reader.onload = (function (file) {
         return function (e) {
           const json = JSON.parse(e.target.result)
@@ -104,7 +103,7 @@ function App() {
       <Video ref={videoRef} autoPlay />
       <Upload name="files" uploadHandler={uploadAll} />
       {loaded && (
-        <Slide backgroundColour={RGB}>
+        <Slide colour={RGB}>
           <Title colour={RGB}>{currentSlide.title}</Title>
           <Textbox content={currentSlide.text}></Textbox>
           <Content content={currentSlide.content} images={images} />
