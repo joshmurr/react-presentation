@@ -2,8 +2,8 @@
 
 ![Screenshot](screenshot.png)
 
-As it stands, to present online using Blackboard, I'm overlaying webcam footage over a application capture in OBS, streaming this to another window (I think OBS calls it a _projection_) and then telling Blackboard to share that window.. The reasoning behind this is to cut out the middle man and just share straight to Blackboard.
+This was originally made as a solution to teaching online via some software called Blackboard which is used in higher education. I found it frustrating that you can _either_ share your webcam _or_ your screen. Being able to see the presenter during a presentation makes the whole experience much more enjoyable, IMO, so this was an answer to that problem.
 
-I'm going to the effort to run the webcam footage through a WebGL program just so I can mess with it in a shader if I want to. Maybe have a blur/pixelate filter if I'm away-from-keyboard.
+The webcam input is run through a WebGL layer to allow me to mess with it if I want to.
 
-This is very much for personal use so the code is a bit of a mess.
+It would be nice one day to have theme presets, but at the moment it's all hard coded.
