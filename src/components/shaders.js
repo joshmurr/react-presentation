@@ -51,6 +51,7 @@ export const swirl_fs = `#version 300 es
 	out vec4 outcolor;
 
 	uniform float u_time;
+	uniform vec3 u_colour;
 
 	float rand(vec2 n) {
 		return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
@@ -93,7 +94,8 @@ export const swirl_fs = `#version 300 es
     //vec4 color = vec4(displacement * 1.2, 0.2, displacement * 5., 1.);
 		if(u_effect) {
 			//outcolor = vec4(vec3(displacement), 1.0);
-			outcolor = texture(u_texture, vec2(displacement));
+			outcolor = texture(u_texture, vec2(displacement));// * vec4(u_colour, 1.0);
+			outcolor = mix(vec4(vec3(1.0) - u_colour, 1.0), vec4(u_colour, 1.0), outcolor);
 		} else {
 			outcolor = texture(u_texture, v_texcoord);
 		}

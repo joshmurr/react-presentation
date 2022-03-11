@@ -15,7 +15,7 @@ const Container = styled.div`
   border-radius: var(--b-rad);
 `
 
-function Webcam({ videoRef, hide }) {
+function Webcam({ videoRef, hide, colour }) {
   useEffect(() => {
     window.addEventListener('click', () => initVideo(videoRef.current))
     return () => {
@@ -25,7 +25,7 @@ function Webcam({ videoRef, hide }) {
 
   return (
     <Container>
-      <WebGLCam videoRef={videoRef} hide={hide}></WebGLCam>
+      <WebGLCam videoRef={videoRef} hide={hide} colour={colour}></WebGLCam>
     </Container>
   )
 }

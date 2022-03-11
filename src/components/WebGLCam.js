@@ -16,7 +16,13 @@ const StyledCanvas = styled.canvas`
   height: 100%;
 `
 
-export default function WebGLCam({ videoRef, hide }) {
+const colourToVec = (colour) => {
+  let ret = [0, 0, 0]
+  ret[colour.toLowerCase().indexOf('f') - 1] += 1
+  return ret
+}
+
+export default function WebGLCam({ videoRef, hide, colour }) {
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -38,6 +44,8 @@ export default function WebGLCam({ videoRef, hide }) {
         u_time_val: 0,
         u_effect_val: hide,
         u_effect: gl.getUniformLocation(program, 'u_effect'),
+        u_colour: gl.getUniformLocation(program, 'u_colour'),
+        u_colour_val: colourToVec(colour),
         dither: false,
       }
 
@@ -67,6 +75,7 @@ export default function WebGLCam({ videoRef, hide }) {
       )
       gl.uniform1f(program.u_time, program.u_time_val)
       gl.uniform1f(program.u_effect, program.u_effect_val)
+      gl.uniform3f(program.u_colour, ...program.u_colour_val)
 
       program.u_time_val += 0.01
 
@@ -77,7 +86,7 @@ export default function WebGLCam({ videoRef, hide }) {
     return () => {
       window.cancelAnimationFrame(frameID)
     }
-  }, [videoRef, hide])
+  }, [videoRef, hide, colour])
 
   return (
     <>

@@ -107,7 +107,7 @@ function App() {
           <Title colour={RGB}>{currentSlide.title}</Title>
           <Textbox content={currentSlide.text}></Textbox>
           <Content content={currentSlide.content} images={images} />
-          <Webcam videoRef={videoRef} hide={hideCam}></Webcam>
+          <Webcam videoRef={videoRef} hide={hideCam} colour={RGB}></Webcam>
         </Slide>
       )}
     </div>
